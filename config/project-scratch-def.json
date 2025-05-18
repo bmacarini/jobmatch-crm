@@ -1,0 +1,13 @@
+{
+  "orgName": "JobMatch CRM",
+  "edition": "Developer",
+  "features": ["Communities", "PersonAccounts"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    }
+  }
+}
