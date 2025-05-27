@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Experience_Level__c</fullName>
-    <label>Experience Level</label>
+    <fullName>Is_Remote__c</fullName>
+    <label>Open to Remote?</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -10,19 +10,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Entry</fullName>
+                <fullName>Yes</fullName>
                 <default>false</default>
-                <label>Entry</label>
+                <label>Yes</label>
             </value>
             <value>
-                <fullName>Mid</fullName>
+                <fullName>No</fullName>
                 <default>false</default>
-                <label>Mid</label>
-            </value>
-            <value>
-                <fullName>Senior</fullName>
-                <default>false</default>
-                <label>Senior</label>
+                <label>No</label>
             </value>
         </valueSetDefinition>
     </valueSet>

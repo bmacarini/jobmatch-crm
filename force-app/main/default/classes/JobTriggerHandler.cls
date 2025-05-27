@@ -1,13 +1,13 @@
 public with sharing class JobTriggerHandler {
-    public static void handleAfterInsertOrUpdate(List<Job__c> jobs) {
+    public static void handleAfterInsertOrUpdate(List<Job__c> jobs, Boolean isAfter, Boolean isInsert, Boolean isUpdate) {
 
-        List<Candidate__c> candidates = [SELECT Id,Location__c,Desired_Job__c,Experience_Level__c,Open_To_Remote_Jobs__c FROM Candidate__c];
+        List<Candidate__c> candidates = [SELECT Id,Location__c,Position__c,Experience_Level__c,Is_Remote__c FROM Candidate__c];
 
         Map<String, List<Candidate__c>> candidatesByKey = new Map<String, List<Candidate__c>>();
 
         for(Candidate__c candidate : candidates) {
-            String locationKey = candidate.Open_To_Remote_Jobs__c != 'Yes' ? candidate.Location__c : 'Yes';
-            String candidateKey = (candidate.Desired_Job__c + '|' + candidate.Experience_Level__c + '|' + locationKey);
+            String locationKey = candidate.Is_Remote__c != true ? String.valueOf(candidate.Location__c) : 'YesToRemote';
+            String candidateKey = (candidate.Position__c + '|' + candidate.Experience_Level__c + '|' + locationKey);
             if (!candidatesByKey.containsKey(candidateKey)) {
                 candidatesByKey.put(candidateKey, new List<Candidate__c>());
             }
@@ -42,9 +42,9 @@ public with sharing class JobTriggerHandler {
 
         List<Match__c> matchesToInsert = new List<Match__c>();
         for (Job__c job : jobs) {
-            String locationKey = job.Remote__c != 'Yes' ? job.Location__c : 'Yes';
+            String locationKey = job.Is_Remote__c != 'Yes' ? job.Location__c : 'Yes';
             
-            String jobKey = (job.Title__c + '|' + job.Experience_Level__c + '|' + locationKey);
+            String jobKey = (job.Position__c + '|' + job.Experience_Level__c + '|' + locationKey);
 
             if(candidatesByKey.containsKey(jobKey)) {
                 
@@ -54,8 +54,8 @@ public with sharing class JobTriggerHandler {
                     Match__c match = new Match__c();
                     match.Job__c = job.Id;
                     match.Candidate__c = candidate.Id;
-                    match.Status__c = 'New';
-                    match.Score__c = 100;
+                    match.Status_Match__c = 'New';
+                    match.Match_Score__c = 100; //Trazer calculo de match score
                     matchesToInsert.add(match);
                     }
                 }

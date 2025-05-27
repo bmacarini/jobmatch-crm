@@ -5,8 +5,8 @@ public with sharing class MatchScoringService {
         Set<String> jobSkills = new Set<String>();
         Set<String> candidateSkills = new Set<String>();
 
-        List<String> noNullishJobSkillsList = job.Skills__c != null ? job.Skills__c.split() : new List<String>();
-        List<String> noNullishCandidateSkillsList = candidate.Skills__c != null ? candidate.Skills__c.split() : new List<String>();
+        List<String> noNullishJobSkillsList = job.Skills__c != null ? job.Skills__c.split(';') : new List<String>();
+        List<String> noNullishCandidateSkillsList = candidate.Skills__c != null ? candidate.Skills__c.split(';') : new List<String>();
 
         for(String jobSkill : noNullishJobSkillsList){
             jobSkills.add(jobSkill.trim());
