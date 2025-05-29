@@ -20,7 +20,7 @@
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
 @isTest
-private class MatchScoringServiceTest {
+private class Test_Service_MatchScoring {
 
     @isTest
     static void noMatchTest() {

@@ -1,4 +1,4 @@
-public with sharing class MatchScoringService {
+public with sharing class Service_MatchScoring {
     public static ScoreResultDTO calculateScore(Job__c job, Candidate__c candidate) {
         Integer matchScore = 0;
         

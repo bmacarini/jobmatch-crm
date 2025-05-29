@@ -1,4 +1,4 @@
-public with sharing class ScoreResultDTO {
+public with sharing class DTO_ScoreResult {
     public Integer score;
     public String matchMessage;
 
