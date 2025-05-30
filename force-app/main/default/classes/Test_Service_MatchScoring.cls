@@ -25,27 +25,120 @@ private class Test_Service_MatchScoring {
     @isTest
     static void noMatchTest() {
         Job__c testJob = new Job__c();
-        testJob.Title__c = 'Software Engineer';
+        testJob.Position__c = 'Software Engineer';
         testJob.Company__c = 'Test Company';
         testJob.Location__c = 'San Francisco';
-        testJob.Skills__c = 'Java, Apex, Salesforce, JavaScript, HTML';
+        testJob.Skills__c = 'Java;Apex;Salesforce;JavaScript;HTML';
         testJob.Offered_Salary__c = 120000;
+        testJob.Is_Remote__c = 'Yes';
+        testJob.Experience_Level__c = 'Mid';
         insert testJob;
 
         Candidate__c testCandidate = new Candidate__c();
-        testCandidate.Desired_Job__c = 'Software Engineer';
+        testCandidate.Position__c = 'Software Engineer';
         testCandidate.Location__c = 'San Francisco';
         testCandidate.First_Name__c = 'John';
         testCandidate.Last_Name__c = 'Doe';
         testCandidate.Email__c = 'teste@test.com';
         testCandidate.Experience_Level__c = 'Mid';
         testCandidate.Resume_URL__c = 'http://example.com/resume.pdf';
-        testCandidate.Skills__c = 'Python, C++, Ruby, Go, Swift';
+        testCandidate.Skills__c = 'Python;C++;Ruby;Go;Swift';
+        testCandidate.Is_Remote__c = 'Yes';
         insert testCandidate;
 
-        ScoreResultDTO result = MatchScoringService.calculateScore(testJob, testCandidate);
+        DTO_ScoreResult result = Service_MatchScoring.calculateScore(testJob, testCandidate);
 
-        System.assertEquals(result.score, 0, 'Expected score to be 0 for no matching skills');
-        System.assertEquals(result.matchMessage, 'Sem match entre candidato e vaga', 'Expected match message for no match');
+        System.assertEquals(0, result.score, 'Expected score to be 0 for no matching skills');
+        System.assertEquals('Sem match entre candidato e vaga', result.matchMessage, 'Expected match message for no match');
+    }
+
+    @isTest
+    static void lowMatchTest() {
+        Job__c testJob = new Job__c();
+        testJob.Position__c = 'Software Engineer';
+        testJob.Company__c = 'Test Company';
+        testJob.Location__c = 'San Francisco';
+        testJob.Skills__c = 'Java;Apex;Salesforce;JavaScript;HTML';
+        testJob.Offered_Salary__c = 120000;
+        testJob.Is_Remote__c = 'Yes';
+        testJob.Experience_Level__c = 'Mid';
+        insert testJob;
+
+        Candidate__c testCandidate = new Candidate__c();
+        testCandidate.Position__c = 'Software Engineer';
+        testCandidate.Location__c = 'San Francisco';
+        testCandidate.First_Name__c = 'John';
+        testCandidate.Last_Name__c = 'Doe';
+        testCandidate.Email__c = 'teste@test.com';
+        testCandidate.Experience_Level__c = 'Mid';
+        testCandidate.Resume_URL__c = 'http://example.com/resume.pdf';
+        testCandidate.Skills__c = 'Java;Apex;Ruby;Go;Swift';
+        testCandidate.Is_Remote__c = 'Yes';
+        insert testCandidate;
+
+        DTO_ScoreResult result = Service_MatchScoring.calculateScore(testJob, testCandidate);
+
+        System.assertEquals(40, result.score, 'Expected score to be 40% for matching skills');
+        System.assertEquals('Match baixo entre candidato e vaga', result.matchMessage, 'Expected match message for low match');
+    }
+
+    @isTest
+    static void highMatchTest() {
+        Job__c testJob = new Job__c();
+        testJob.Position__c = 'Software Engineer';
+        testJob.Company__c = 'Test Company';
+        testJob.Location__c = 'San Francisco';
+        testJob.Skills__c = 'Java;Apex;Salesforce;JavaScript;HTML';
+        testJob.Offered_Salary__c = 120000;
+        testJob.Is_Remote__c = 'Yes';
+        testJob.Experience_Level__c = 'Mid';
+        insert testJob;
+
+        Candidate__c testCandidate = new Candidate__c();
+        testCandidate.Position__c = 'Software Engineer';
+        testCandidate.Location__c = 'San Francisco';
+        testCandidate.First_Name__c = 'John';
+        testCandidate.Last_Name__c = 'Doe';
+        testCandidate.Email__c = 'teste@test.com';
+        testCandidate.Experience_Level__c = 'Mid';
+        testCandidate.Resume_URL__c = 'http://example.com/resume.pdf';
+        testCandidate.Skills__c = 'Java;Apex;Salesforce;JavaScript;Swift';
+        testCandidate.Is_Remote__c = 'Yes';
+        insert testCandidate;
+
+        DTO_ScoreResult result = Service_MatchScoring.calculateScore(testJob, testCandidate);
+
+        System.assertEquals(80, result.score, 'Expected score to be 80% for matching skills');
+        System.assertEquals('Match alto entre candidato e vaga', result.matchMessage, 'Expected match message for high match');
+    }
+
+    @isTest
+    static void perfectMatchTest() {
+        Job__c testJob = new Job__c();
+        testJob.Position__c = 'Software Engineer';
+        testJob.Company__c = 'Test Company';
+        testJob.Location__c = 'San Francisco';
+        testJob.Skills__c = 'Java;Apex;Salesforce;JavaScript;HTML';
+        testJob.Offered_Salary__c = 120000;
+        testJob.Is_Remote__c = 'Yes';
+        testJob.Experience_Level__c = 'Mid';
+        insert testJob;
+
+        Candidate__c testCandidate = new Candidate__c();
+        testCandidate.Position__c = 'Software Engineer';
+        testCandidate.Location__c = 'San Francisco';
+        testCandidate.First_Name__c = 'John';
+        testCandidate.Last_Name__c = 'Doe';
+        testCandidate.Email__c = 'teste@test.com';
+        testCandidate.Experience_Level__c = 'Mid';
+        testCandidate.Resume_URL__c = 'http://example.com/resume.pdf';
+        testCandidate.Skills__c = 'Java;Apex;Salesforce;JavaScript;HTML';
+        testCandidate.Is_Remote__c = 'Yes';
+        insert testCandidate;
+
+        DTO_ScoreResult result = Service_MatchScoring.calculateScore(testJob, testCandidate);
+
+        System.assertEquals(100, result.score, 'Expected score to be 100% for matching skills');
+        System.assertEquals('Match perfeito entre candidato e vaga', result.matchMessage, 'Expected match message for perfect match');
     }
 }

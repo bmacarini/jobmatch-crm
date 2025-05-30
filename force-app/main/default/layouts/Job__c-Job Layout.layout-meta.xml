@@ -12,7 +12,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Title__c</field>
+                <field>Position__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -44,7 +44,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Remote__c</field>
+                <field>Is_Remote__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

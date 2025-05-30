@@ -1,3 +1,6 @@
 trigger JobTrigger on Job__c (after insert, after update) {
-    JobTriggerHandler.handleAfterInsertOrUpdate(Trigger.new, Trigger.isAfter, Trigger.isInsert, Trigger.isUpdate);
+    Handler_JobTrigger.handleAfterInsertOrUpdate(
+        Trigger.new,
+        new Handler_JobTrigger.TriggerContext(Trigger.isAfter, Trigger.isInsert, Trigger.isUpdate)
+    );
 }

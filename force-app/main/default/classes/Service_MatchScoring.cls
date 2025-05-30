@@ -1,5 +1,5 @@
 public with sharing class Service_MatchScoring {
-    public static ScoreResultDTO calculateScore(Job__c job, Candidate__c candidate) {
+    public static DTO_ScoreResult calculateScore(Job__c job, Candidate__c candidate) {
         Integer matchScore = 0;
         
         Set<String> jobSkills = new Set<String>();
@@ -23,13 +23,13 @@ public with sharing class Service_MatchScoring {
         }
 
         if(matchScore == 0){
-            return  new ScoreResultDTO(matchScore, 'Sem match entre candidato e vaga');
+            return  new DTO_ScoreResult(matchScore, 'Sem match entre candidato e vaga');
         } else if(matchScore < 50){
-            return new ScoreResultDTO(matchScore, 'Match baixo entre candidato e vaga');
+            return new DTO_ScoreResult(matchScore, 'Match baixo entre candidato e vaga');
         } else if(matchScore >= 50 && matchScore <= 89){
-            return new ScoreResultDTO(matchScore, 'Match alto entre candidato e vaga');
+            return new DTO_ScoreResult(matchScore, 'Match alto entre candidato e vaga');
         } else {
-            return new ScoreResultDTO(matchScore, 'Match perfeito entre candidato e vaga');
+            return new DTO_ScoreResult(matchScore, 'Match perfeito entre candidato e vaga');
         }
     }
 }
