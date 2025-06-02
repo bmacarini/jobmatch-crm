@@ -25,72 +25,48 @@ public with sharing class Handler_JobTrigger {
         return candidatesByKey;
     }
 
-    private static Set<Id> getCandidateIds(Map<String, List<Candidate__c>> candidatesByKey){
-        Set<Id> candidateIds = new Set<Id>();
-
-        for(List<Candidate__c> candidateList : candidatesByKey.values()) {
-            for(Candidate__c candidate : candidateList) {
-                candidateIds.add(candidate.Id);
-            }
-        }
-        return candidateIds;
-    }
-
-    private static Set<String> getExistingMatchesKeys(List<Match__c> existingMatches) {
-        Set<String> existingMatchesKeys = new Set<String>();
-        for(Match__c match : existingMatches) {
-            String key = (match.Job__c + '|' + match.Candidate__c);
-            existingMatchesKeys.add(key);
-        }
-        return existingMatchesKeys;
-    }
-
-    private static List<Match__c> buildMatchesToInsert(List<Job__c> jobs, Map<String, List<Candidate__c>> candidatesByKey, Set<String> existingMatchesKeys) {
+    private static List<Match__c> buildMatchesToInsert(List<Job__c> jobs, Map<String, List<Candidate__c>> candidatesByKey) {
         List<Match__c> matchesToInsert = new List<Match__c>();
+
         for (Job__c job : jobs) {
             String locationKey = String.valueOf(job.Is_Remote__c) == 'Yes' ? 'YesToRemote' : job.Location__c;
-            
             String jobKey = (job.Position__c + '|' + job.Experience_Level__c + '|' + locationKey);
 
             if(candidatesByKey.containsKey(jobKey)) {
                 
                 for(Candidate__c candidate : candidatesByKey.get(jobKey)) {
-                    String matchKey = (job.Id + '|' + candidate.Id);
-                    if(!existingMatchesKeys.contains(matchKey)) {
                     Match__c match = new Match__c();
                     match.Job__c = job.Id;
                     match.Candidate__c = candidate.Id;
                     match.Status_Match__c = 'New';
                     match.Match_Score__c = Service_MatchScoring.calculateScore(job, candidate).score; //Calculo de match score
+                    match.JobCandidateUniqueKey__c = job.Id + '|' + candidate.Id;
                     matchesToInsert.add(match);
-                    }
                 }
             }
         }
+
         return matchesToInsert;
     }
 
     public static void handleAfterInsertOrUpdate(List<Job__c> jobs, TriggerContext context) {
+        if (!context.isAfter || (!context.isInsert && !context.isUpdate)) {
+            return;
+        }
 
         List<Candidate__c> candidates = Service_FetchCandidates.getCandidates();
 
         Map<String, List<Candidate__c>> candidatesByKey = groupCandidatesByKey(candidates);
 
-        Set<Id> jobIds = new Set<Id>();
-        Set<Id> candidateIds = getCandidateIds(candidatesByKey);
-
-        for (Job__c job : jobs) {
-            jobIds.add(job.Id);
-        }
-
-        List<Match__c> existingMatches = Service_FetchExistingMatches.getMatches(jobIds, candidateIds);
-        Set<String> existingMatchesKeys = getExistingMatchesKeys(existingMatches);
-
-        List<Match__c> matchesToInsert = buildMatchesToInsert(jobs, candidatesByKey, existingMatchesKeys);
+        List<Match__c> matchesToInsert = buildMatchesToInsert(jobs, candidatesByKey);
 
         if(!matchesToInsert.isEmpty()) {
-            Util_Security.checkCreateAccess('Match__c');
-            insert matchesToInsert;
+            try {
+                Util_Security.checkCreateAccess('Match__c');
+                insert matchesToInsert;
+            } catch (Exception e) {
+                System.debug('Error while inserting match: ' + e.getMessage());
+            }
         }
     }
 }
