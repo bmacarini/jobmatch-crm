@@ -44,21 +44,18 @@ private class Test_Handler_JobTrigger {
         testJob.Offered_Salary__c = 120000;
         testJob.Is_Remote__c = 'Yes';
         testJob.Experience_Level__c = 'Mid';
-        insert testJob;
-
-        Handler_JobTrigger.TriggerContext testContext = new Handler_JobTrigger.TriggerContext(true, true, false);
-
-        Handler_JobTrigger.handleAfterInsertOrUpdate(new List<Job__c>{testJob}, testContext);
 
         test.startTest();
-        List<Match__c> result = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
-                                  FROM Match__c 
-                                  WHERE Job__c = :testJob.Id AND Candidate__c = :testCandidate.Id];
+        insert testJob;
         test.stopTest();
+
+        String expectedKey = testJob.Id + '|' + testCandidate.Id;
+
+        List<Match__c> result = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c, JobCandidateUniqueKey__c
+                                  FROM Match__c 
+                                  WHERE JobCandidateUniqueKey__c = :expectedKey];
         
         System.assertEquals(1, result.size(), 'Expected one match to be created');
-        System.assertEquals(testJob.Id, result[0].Job__c, 'Expected job Id');
-        System.assertEquals(testCandidate.Id, result[0].Candidate__c, 'Expected candidate Id');
         System.assertEquals('New', result[0].Status_Match__c, 'Expected status match');
         System.assertEquals(80, result[0].Match_Score__c, 'Expected match score');
     }
@@ -85,17 +82,16 @@ private class Test_Handler_JobTrigger {
         testJob.Offered_Salary__c = 120000;
         testJob.Is_Remote__c = 'Yes';
         testJob.Experience_Level__c = 'Mid';
-        insert testJob;
-
-        Handler_JobTrigger.TriggerContext testContext = new Handler_JobTrigger.TriggerContext(true, true, false);
-
-        Handler_JobTrigger.handleAfterInsertOrUpdate(new List<Job__c>{testJob}, testContext);
 
         test.startTest();
-        List<Match__c> result = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
-                                  FROM Match__c 
-                                  WHERE Job__c = :testJob.Id AND Candidate__c = :testCandidate.Id];
+        insert testJob;
         test.stopTest();
+
+        String expectedKey = testJob.Id + '|' + testCandidate.Id;
+
+        List<Match__c> result = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c, JobCandidateUniqueKey__c 
+                                  FROM Match__c 
+                                  WHERE JobCandidateUniqueKey__c = :expectedKey];
         
         System.assertEquals(0, result.size(), 'No match must be created');
     }
