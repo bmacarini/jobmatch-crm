@@ -133,4 +133,144 @@ private class Test_Handler_JobTrigger {
         
         System.assertEquals(1, result.size(), 'Expected no duplicated match to be created');
     }
+
+    @isTest
+    static void locationKeyTest() {
+
+        Candidate__c testRemoteCandidate = new Candidate__c();
+        testRemoteCandidate.Position__c = 'Salesforce Developer';
+        testRemoteCandidate.Location__c = 'San Francisco';
+        testRemoteCandidate.First_Name__c = 'Remote';
+        testRemoteCandidate.Last_Name__c = 'Doe';
+        testRemoteCandidate.Email__c = 'testRemote@test.com';
+        testRemoteCandidate.Experience_Level__c = 'Mid';
+        testRemoteCandidate.Resume_URL__c = 'http://example.com/resumeRemote.pdf';
+        testRemoteCandidate.Skills__c = 'Apex;LWC;Visualforce;SOQL;Aura Components';
+        testRemoteCandidate.Is_Remote__c = 'Yes';
+        insert testRemoteCandidate;
+
+        Candidate__c testLocalCandidate = new Candidate__c();
+        testLocalCandidate.Position__c = 'Salesforce Developer';
+        testLocalCandidate.Location__c = 'San Francisco';
+        testLocalCandidate.First_Name__c = 'Local';
+        testLocalCandidate.Last_Name__c = 'Doe';
+        testLocalCandidate.Email__c = 'testLocal@test.com';
+        testLocalCandidate.Experience_Level__c = 'Mid';
+        testLocalCandidate.Resume_URL__c = 'http://example.com/resumeLocal.pdf';
+        testLocalCandidate.Skills__c = 'Apex;LWC;Visualforce;SOQL;Aura Components';
+        testLocalCandidate.Is_Remote__c = 'No';
+        insert testLocalCandidate;
+
+        Job__c testRemoteJob = new Job__c();
+        testRemoteJob.Position__c = 'Salesforce Developer';
+        testRemoteJob.Company__c = 'Remote Company';
+        testRemoteJob.Location__c = 'San Francisco';
+        testRemoteJob.Skills__c = 'Apex;LWC;Visualforce;SOQL;HTML';
+        testRemoteJob.Offered_Salary__c = 120000;
+        testRemoteJob.Is_Remote__c = 'Yes';
+        testRemoteJob.Experience_Level__c = 'Mid';
+
+        Job__c testLocalJob = new Job__c();
+        testLocalJob.Position__c = 'Salesforce Developer';
+        testLocalJob.Company__c = 'Local Company';
+        testLocalJob.Location__c = 'San Francisco';
+        testLocalJob.Skills__c = 'Apex;LWC;Visualforce;SOQL;HTML';
+        testLocalJob.Offered_Salary__c = 120000;
+        testLocalJob.Is_Remote__c = 'No';
+        testLocalJob.Experience_Level__c = 'Mid';
+
+        test.startTest();
+        insert testRemoteJob;
+        insert testLocalJob;
+        test.stopTest();
+
+        List<Match__c> expectedRemoteMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testRemoteJob.Id AND Candidate__c = :testRemoteCandidate.Id
+                                  ];
+
+        List<Match__c> expectedLocalMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testLocalJob.Id AND Candidate__c = :testLocalCandidate.Id
+                                  ];
+
+        List<Match__c> wrongMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testRemoteJob.Id AND Candidate__c = :testLocalCandidate.Id
+                                  ];
+        
+        System.assertEquals(1, expectedRemoteMatch.size(), 'Expected match between remote job and remote candidate');
+        System.assertEquals(1, expectedLocalMatch.size(), 'Expected match between local job and local candidate');
+        System.assertEquals(0, wrongMatch.size(), 'Expect no match between remote job and local candidate');
+    }
+
+    @isTest
+    static void dmlSecurityCheckTestTest() {
+
+        Candidate__c testRemoteCandidate = new Candidate__c();
+        testRemoteCandidate.Position__c = 'Salesforce Developer';
+        testRemoteCandidate.Location__c = 'San Francisco';
+        testRemoteCandidate.First_Name__c = 'Remote';
+        testRemoteCandidate.Last_Name__c = 'Doe';
+        testRemoteCandidate.Email__c = 'testRemote@test.com';
+        testRemoteCandidate.Experience_Level__c = 'Mid';
+        testRemoteCandidate.Resume_URL__c = 'http://example.com/resumeRemote.pdf';
+        testRemoteCandidate.Skills__c = 'Apex;LWC;Visualforce;SOQL;Aura Components';
+        testRemoteCandidate.Is_Remote__c = 'Yes';
+        insert testRemoteCandidate;
+
+        Candidate__c testLocalCandidate = new Candidate__c();
+        testLocalCandidate.Position__c = 'Salesforce Developer';
+        testLocalCandidate.Location__c = 'San Francisco';
+        testLocalCandidate.First_Name__c = 'Local';
+        testLocalCandidate.Last_Name__c = 'Doe';
+        testLocalCandidate.Email__c = 'testLocal@test.com';
+        testLocalCandidate.Experience_Level__c = 'Mid';
+        testLocalCandidate.Resume_URL__c = 'http://example.com/resumeLocal.pdf';
+        testLocalCandidate.Skills__c = 'Apex;LWC;Visualforce;SOQL;Aura Components';
+        testLocalCandidate.Is_Remote__c = 'No';
+        insert testLocalCandidate;
+
+        Job__c testRemoteJob = new Job__c();
+        testRemoteJob.Position__c = 'Salesforce Developer';
+        testRemoteJob.Company__c = 'Remote Company';
+        testRemoteJob.Location__c = 'San Francisco';
+        testRemoteJob.Skills__c = 'Apex;LWC;Visualforce;SOQL;HTML';
+        testRemoteJob.Offered_Salary__c = 120000;
+        testRemoteJob.Is_Remote__c = 'Yes';
+        testRemoteJob.Experience_Level__c = 'Mid';
+
+        Job__c testLocalJob = new Job__c();
+        testLocalJob.Position__c = 'Salesforce Developer';
+        testLocalJob.Company__c = 'Local Company';
+        testLocalJob.Location__c = 'San Francisco';
+        testLocalJob.Skills__c = 'Apex;LWC;Visualforce;SOQL;HTML';
+        testLocalJob.Offered_Salary__c = 120000;
+        testLocalJob.Is_Remote__c = 'No';
+        testLocalJob.Experience_Level__c = 'Mid';
+
+        test.startTest();
+        insert testRemoteJob;
+        insert testLocalJob;
+        test.stopTest();
+
+        List<Match__c> expectedRemoteMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testRemoteJob.Id AND Candidate__c = :testRemoteCandidate.Id
+                                  ];
+
+        List<Match__c> expectedLocalMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testLocalJob.Id AND Candidate__c = :testLocalCandidate.Id
+                                  ];
+
+        List<Match__c> wrongMatch = [SELECT Id, Job__c, Candidate__c, Status_Match__c, Match_Score__c 
+                                  FROM Match__c 
+                                  WHERE Job__c = :testRemoteJob.Id AND Candidate__c = :testLocalCandidate.Id
+                                  ];
+        
+        System.assertEquals(1, expectedRemoteMatch.size(), 'Expected match between remote job and remote candidate');
+        System.assertEquals(1, expectedLocalMatch.size(), 'Expected match between local job and local candidate');
+        System.assertEquals(0, wrongMatch.size(), 'Expect no match between remote job and local candidate');
+    }
 }
