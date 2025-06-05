@@ -1,7 +1,21 @@
 <template>
-        <lightning-card  title={cardTitle}>
+    <template lwc:if={job}>
+        <lightning-card title={job.Company__c}>
             <lightning-button label="More info" slot="actions"></lightning-button>
-            <p class="slds-p-horizontal_small">{company}</p>
-            <p class="slds-p-horizontal_small">{location}</p>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div class="slds-p-horizontal_medium">
+                    <p>{positionAndExperienceLevel}</p>
+                    <p class="slds-text-body_small">{job.Location__c}</p>
+                </div>
+                <div class="slds-p-horizontal_medium" style="align-self: flex-end;">
+                    <div lwc:if={job.IsActive__c}>
+                        <span class="slds-badge slds-theme_success">Open</span>
+                    </div>
+                    <div lwc:else>
+                        <span class="slds-badge">Closed</span>
+                    </div>
+                </div>
+            </div>
         </lightning-card>
+    </template>
 </template>

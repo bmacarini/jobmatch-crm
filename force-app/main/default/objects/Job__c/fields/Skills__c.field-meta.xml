@@ -1,156 +1,190 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Skills__c</fullName>
-    <externalId>false</externalId>
+    <description>Skills that the job possesses, selected from a predefinedlist.</description>
     <label>Skills</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
-    <description>Skills that the job possesses, selected from a predefinedlist.</description>
-    <visibleLines>5</visibleLines>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
                 <fullName>Apex</fullName>
                 <default>false</default>
+                <label>Apex</label>
             </value>
             <value>
                 <fullName>LWC</fullName>
                 <default>false</default>
+                <label>LWC</label>
             </value>
             <value>
                 <fullName>Visualforce</fullName>
                 <default>false</default>
+                <label>Visualforce</label>
             </value>
             <value>
                 <fullName>SOQL</fullName>
                 <default>false</default>
+                <label>SOQL</label>
             </value>
             <value>
                 <fullName>Aura Components</fullName>
                 <default>false</default>
+                <label>Aura Components</label>
             </value>
             <value>
                 <fullName>Flows</fullName>
                 <default>false</default>
+                <label>Flows</label>
             </value>
             <value>
                 <fullName>Permission Sets</fullName>
                 <default>false</default>
+                <label>Permission Sets</label>
             </value>
             <value>
                 <fullName>Reports and Dashboards</fullName>
                 <default>false</default>
+                <label>Reports and Dashboards</label>
             </value>
             <value>
                 <fullName>Process Builder</fullName>
                 <default>false</default>
+                <label>Process Builder</label>
             </value>
             <value>
                 <fullName>Data Loader</fullName>
                 <default>false</default>
+                <label>Data Loader</label>
             </value>
             <value>
                 <fullName>User Stories</fullName>
                 <default>false</default>
+                <label>User Stories</label>
             </value>
             <value>
                 <fullName>Requirements Gathering</fullName>
                 <default>false</default>
+                <label>Requirements Gathering</label>
             </value>
             <value>
                 <fullName>Agile Methodology</fullName>
                 <default>false</default>
+                <label>Agile Methodology</label>
             </value>
             <value>
                 <fullName>Data Mapping</fullName>
                 <default>false</default>
+                <label>Data Mapping</label>
             </value>
             <value>
                 <fullName>Use Cases</fullName>
                 <default>false</default>
+                <label>Use Cases</label>
             </value>
             <value>
                 <fullName>Wireframing</fullName>
                 <default>false</default>
+                <label>Wireframing</label>
             </value>
             <value>
                 <fullName>Figma</fullName>
                 <default>false</default>
+                <label>Figma</label>
             </value>
             <value>
                 <fullName>Design Tokens</fullName>
                 <default>false</default>
+                <label>Design Tokens</label>
             </value>
             <value>
                 <fullName>UX Writing</fullName>
                 <default>false</default>
+                <label>UX Writing</label>
             </value>
             <value>
                 <fullName>Design System</fullName>
                 <default>false</default>
+                <label>Design System</label>
             </value>
             <value>
                 <fullName>Security Review</fullName>
                 <default>false</default>
+                <label>Security Review</label>
             </value>
             <value>
                 <fullName>Integration Patterns</fullName>
                 <default>false</default>
+                <label>Integration Patterns</label>
             </value>
             <value>
                 <fullName>Multi-Org Strategy</fullName>
                 <default>false</default>
+                <label>Multi-Org Strategy</label>
             </value>
             <value>
                 <fullName>System Scalability</fullName>
                 <default>false</default>
+                <label>System Scalability</label>
             </value>
             <value>
                 <fullName>Data Modeling</fullName>
                 <default>false</default>
+                <label>Data Modeling</label>
             </value>
             <value>
                 <fullName>Shield Encryption</fullName>
                 <default>false</default>
+                <label>Shield Encryption</label>
             </value>
             <value>
                 <fullName>Field Level Security</fullName>
                 <default>false</default>
+                <label>Field Level Security</label>
             </value>
             <value>
                 <fullName>Event Monitoring</fullName>
                 <default>false</default>
+                <label>Event Monitoring</label>
             </value>
             <value>
                 <fullName>Audit Trail</fullName>
                 <default>false</default>
+                <label>Audit Trail</label>
             </value>
             <value>
                 <fullName>User Authentication</fullName>
                 <default>false</default>
+                <label>User Authentication</label>
             </value>
             <value>
                 <fullName>Solution Design</fullName>
                 <default>false</default>
+                <label>Solution Design</label>
             </value>
             <value>
                 <fullName>Client Training</fullName>
                 <default>false</default>
+                <label>Client Training</label>
             </value>
             <value>
                 <fullName>Project Scoping</fullName>
                 <default>false</default>
+                <label>Project Scoping</label>
             </value>
             <value>
                 <fullName>Change Management</fullName>
                 <default>false</default>
+                <label>Change Management</label>
             </value>
             <value>
                 <fullName>CRM Strategy</fullName>
                 <default>false</default>
+                <label>CRM Strategy</label>
             </value>
         </valueSetDefinition>
     </valueSet>
+    <visibleLines>5</visibleLines>
 </CustomField>

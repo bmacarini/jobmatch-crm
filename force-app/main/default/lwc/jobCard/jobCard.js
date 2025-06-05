@@ -1,12 +1,9 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
 export default class JobCard extends LightningElement {
-    position = 'Salesforce Developer';
-    company = 'Test Company';
-    location = 'São Paulo';
-    experience_level = 'Senior'
+    @api job;
 
-    get cardTitle() {
-        return `${this.position} ${this.experience_level}`;
+    get positionAndExperienceLevel(){
+        return `${this.job.Position__c} ${this.job.Experience_Level__c}`;	
     }
 }
