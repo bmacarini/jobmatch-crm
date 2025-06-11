@@ -1,0 +1,8 @@
+<template>
+    <template if:false={showDetail}>
+        <c-job-list onshowdetail={handleJobSelected}></c-job-list>
+    </template>
+    <template if:true={showDetail}>
+        <c-job-detail job={selectedJob} onback={handleBack}></c-job-detail>
+    </template>
+</template>

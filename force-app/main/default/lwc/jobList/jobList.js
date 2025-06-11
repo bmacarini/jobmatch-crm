@@ -15,4 +15,15 @@ export default class JobList extends LightningElement {
             this.jobs = undefined;
         }
     }
+
+    handleJobSelected(event) {
+        const selectedJobId = event.detail;
+        const selectedJob = this.jobs.find(job => job.Id === selectedJobId);
+
+        this.dispatchEvent(
+            new CustomEvent('showdetail', {
+                detail: selectedJob
+            })
+        );
+    }
 }

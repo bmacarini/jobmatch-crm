@@ -1,0 +1,133 @@
+<template>
+    <template if:true={job}>
+        <div class="slds-card">
+            <div class="slds-page-header slds-page-header_record-home">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media slds-media_center">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-account" title="Empresa">
+                                    <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate" title="Acme Corp">
+                                                {job.Company__c}
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__col-actions">
+                        <div class="slds-page-header__controls">
+                            <div class="slds-page-header__control">
+                                <button class="slds-button slds-button_neutral" onclick={handleBack}>Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-card slds-m-around_medium">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <span class="slds-text-heading_small">{positionAndExperienceLevel}</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-grid slds-wrap slds-m-top_medium slds-p-around_medium">
+                    <!-- Localização -->
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <p class="slds-text-title_caps">Location</p>
+                        <p>{job.Location__c}</p>
+                    </div>
+
+                    <!-- Salário -->
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <p class="slds-text-title_caps">Salary</p>
+                        <p>{job.Offered_Salary__c}</p>
+                    </div>
+
+                    <!-- Tipo de contratação -->
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <p class="slds-text-title_caps">Employment type</p>
+                        <p>{job.Employment_Type__c}</p>
+                    </div>
+
+                    <!-- Indústria -->
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <p class="slds-text-title_caps">Industry</p>
+                        <p>{job.Industry__c}</p>
+                    </div>
+
+                    <!-- Remoto -->
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <p class="slds-text-title_caps">Remote?</p>
+                        <p>{job.Is_Remote__c}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="slds-card slds-m-around_medium">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <span class="slds-text-heading_small">Skills</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_medium">
+                    <span class="slds-badge slds-m-right_x-small">JavaScript</span>
+                    <span class="slds-badge slds-m-right_x-small">React</span>
+                    <span class="slds-badge slds-m-right_x-small">API REST</span>
+                </div>
+            </div>
+
+            <!-- Candidatos compatíveis -->
+            <div class="slds-card slds-m-around_medium">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <span class="slds-text-heading_small">Matches</span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_medium">
+                    <div class="slds-media slds-m-bottom_medium">
+                        <div class="slds-media__body">
+                            <p class="slds-text-heading_small">João Silva</p>
+                            <p class="slds-text-body_small">3 anos de experiência em React e Node.js</p>
+                        </div>
+                        <div class="slds-media__figure slds-media__figure_reverse">
+                            <span class="slds-badge">Score: 87</span>
+                        </div>
+                    </div>
+
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-text-heading_small">Ana Souza</p>
+                            <p class="slds-text-body_small">Experiência com frontend e boas práticas de UI</p>
+                        </div>
+                        <div class="slds-media__figure slds-media__figure_reverse">
+                            <span class="slds-badge">Score: 79</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

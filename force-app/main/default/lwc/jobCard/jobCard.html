@@ -1,7 +1,7 @@
 <template>
     <template lwc:if={job}>
         <lightning-card title={job.Company__c}>
-            <lightning-button label="More info" slot="actions"></lightning-button>
+            <lightning-button label="More info" slot="actions" onclick={selectHandler}></lightning-button>
             <div style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div class="slds-p-horizontal_medium">
                     <p>{positionAndExperienceLevel}</p>
