@@ -89,9 +89,9 @@
                     </header>
                 </div>
                 <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_medium">
-                    <span class="slds-badge slds-m-right_x-small">JavaScript</span>
-                    <span class="slds-badge slds-m-right_x-small">React</span>
-                    <span class="slds-badge slds-m-right_x-small">API REST</span>
+                    <template for:each={skillList} for:item="skill">
+                        <span key={skill} class="slds-badge slds-m-right_x-small">{skill}</span>
+                    </template>
                 </div>
             </div>
 

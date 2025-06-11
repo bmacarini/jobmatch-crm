@@ -11,4 +11,9 @@ export default class JobDetail extends LightningElement {
                 this.dispatchEvent(new CustomEvent('back'));
         }
 
+        get skillList() {
+                return this.job?.Skills__c ? this.job.Skills__c.split(';').map(s => s.trim()) : [];
+        }
+
+
 }
