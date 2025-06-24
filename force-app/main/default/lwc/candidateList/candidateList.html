@@ -1,0 +1,39 @@
+<template>
+    <div class="slds-card slds-m-around_x-small" onclick={handleClick}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label="Candidate list for the job">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Name">Name</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Match Score">Match Score</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Action">Action</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template lwc:if={match}>
+                    <tr class="slds-hint-parent">
+                        <th data-label="Candidate Name" scope="row">
+                            <div class="slds-truncate" title="Name">{candidateFullName}</div>
+                        </th>
+                        <td data-label="Match Score">
+                            <div class="slds-truncate" title="Match Score">{match.Match_Score__c}</div>
+                        </td>
+                        <th data-label="More info" scope="row">
+                            <div class="slds-truncate" title="Candidate info">
+                                <a href="javascript:void(0);" tabindex="-1" onclick={navigateNext}>More info</a>
+                            </div>
+                        </th>
+                    </tr>
+                </template>
+                <template lwc:else>
+                    <p>There are no matches</p>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</template>

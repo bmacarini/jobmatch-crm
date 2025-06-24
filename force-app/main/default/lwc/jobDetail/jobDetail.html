@@ -106,26 +106,10 @@
                         </div>
                     </header>
                 </div>
-                <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_medium">
-                    <div class="slds-media slds-m-bottom_medium">
-                        <div class="slds-media__body">
-                            <p class="slds-text-heading_small">João Silva</p>
-                            <p class="slds-text-body_small">3 anos de experiência em React e Node.js</p>
-                        </div>
-                        <div class="slds-media__figure slds-media__figure_reverse">
-                            <span class="slds-badge">Score: 87</span>
-                        </div>
-                    </div>
-
-                    <div class="slds-media">
-                        <div class="slds-media__body">
-                            <p class="slds-text-heading_small">Ana Souza</p>
-                            <p class="slds-text-body_small">Experiência com frontend e boas práticas de UI</p>
-                        </div>
-                        <div class="slds-media__figure slds-media__figure_reverse">
-                            <span class="slds-badge">Score: 79</span>
-                        </div>
-                    </div>
+                <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_small">
+                    <template for:each={matches} for:item="match">
+                        <c-candidate-list key={match.Id} match={match}></c-candidate-list>
+                    </template>
                 </div>
             </div>
         </div>
