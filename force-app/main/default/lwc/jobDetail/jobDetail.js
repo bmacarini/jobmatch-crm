@@ -32,4 +32,8 @@ export default class JobDetail extends LightningElement {
                 }
         }
 
+        get hasMatches() {
+                return Array.isArray(this.matches) && this.matches.length > 0;
+        }
+
 }

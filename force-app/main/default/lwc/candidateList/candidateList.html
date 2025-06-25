@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-card slds-m-around_x-small" onclick={handleClick}>
+    <div class="slds-card slds-m-around_x-small">
         <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label="Candidate list for the job">
             <thead>
                 <tr class="slds-line-height_reset">
@@ -29,9 +29,6 @@
                             </div>
                         </th>
                     </tr>
-                </template>
-                <template lwc:else>
-                    <p>There are no matches</p>
                 </template>
             </tbody>
         </table>

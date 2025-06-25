@@ -107,8 +107,13 @@
                     </header>
                 </div>
                 <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_small">
-                    <template for:each={matches} for:item="match">
-                        <c-candidate-list key={match.Id} match={match}></c-candidate-list>
+                    <template lwc:if={hasMatches}>
+                        <template for:each={matches} for:item="match">
+                            <c-candidate-list key={match.Id} match={match}></c-candidate-list>
+                        </template>
+                    </template>
+                    <template lwc:else>
+                        <c-no-data-empty-state message="No matching candidates found yet"></c-no-data-empty-state>
                     </template>
                 </div>
             </div>
