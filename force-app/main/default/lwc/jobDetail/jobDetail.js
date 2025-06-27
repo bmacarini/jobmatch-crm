@@ -6,6 +6,9 @@ export default class JobDetail extends LightningElement {
         matches;
         error;
 
+        isModalOpen = false;
+        modalRecordId;
+
         get positionAndExperienceLevel() {
                 return `${this.job.Position__c} ${this.job.Experience_Level__c}`;
         }
@@ -34,6 +37,16 @@ export default class JobDetail extends LightningElement {
 
         get hasMatches() {
                 return Array.isArray(this.matches) && this.matches.length > 0;
+        }
+
+        handleCandidateSelected(event) {
+                console.log('Evento recebido no jobDetail. ID:', event.detail);
+                this.modalRecordId = event.detail;
+                this.isModalOpen = true;
+        }
+
+        handleCloseModal() {
+                this.isModalOpen = false;
         }
 
 }

@@ -109,7 +109,7 @@
                 <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_small">
                     <template lwc:if={hasMatches}>
                         <template for:each={matches} for:item="match">
-                            <c-candidate-list key={match.Id} match={match}></c-candidate-list>
+                            <c-candidate-list key={match.Id} match={match} oncandidateselected={handleCandidateSelected}></c-candidate-list>
                         </template>
                     </template>
                     <template lwc:else>
@@ -118,5 +118,8 @@
                 </div>
             </div>
         </div>
+    </template>
+    <template lwc:if={isModalOpen}>
+        <c-candidate-detail onclosemodal={handleCloseModal} record-id={modalRecordId}></c-candidate-detail>
     </template>
 </template>

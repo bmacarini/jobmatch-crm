@@ -8,14 +8,12 @@ export default class CandidateList extends NavigationMixin(LightningElement) {
         return `${this.match.Candidate__r.First_Name__c} ${this.match.Candidate__r.Last_Name__c}`;
     }
 
-    navigateNext() {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.match.Candidate__c,
-                objectApiName: 'Candidate__c',
-                actionName: 'view'
-            }
-        })
+    handleCandidateSelect() {
+        console.log('Botão clicado. Candidate ID:', this.match.Candidate__c);
+        const selectedCandidateEvent = new CustomEvent('candidateselected', {
+            detail: this.match.Candidate__c
+        });
+        this.dispatchEvent(selectedCandidateEvent);
     }
+
 }

@@ -2,7 +2,7 @@
     <div class="slds-grid slds-wrap slds-gutters">
         <template lwc:if={jobs}>
             <template for:each={jobs} for:item="job">
-                <div key={job.Id} class="slds-col slds-size_1-of-2">
+                <div key={job.Id} class="slds-col slds-size_1-of-2 slds-m-bottom_x-small">
                     <c-job-card job={job} onjobselected={handleJobSelected}></c-job-card>
                 </div>
             </template>
