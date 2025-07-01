@@ -1,4 +1,5 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 
 export default class JobBoard extends LightningElement {
     showDetail = false;
@@ -12,6 +13,5 @@ export default class JobBoard extends LightningElement {
     handleBack() {
         this.selectedJob = null;
         this.showDetail = false;
-
     }
 }

@@ -10,7 +10,7 @@ import POSITION_FIELD from '@salesforce/schema/Candidate__c.Position__c';
 import EXPERIENCE_LEVEL_FIELD from '@salesforce/schema/Candidate__c.Experience_Level__c';
 import SKILLS_FIELD from '@salesforce/schema/Candidate__c.Skills__c';
 import RESUME_FIELD from '@salesforce/schema/Candidate__c.Resume_URL__c';
-import IS_OPEN_TO_REMOTE_FIELD from '@salesforce/schema/Candidate__c.Is_Open_To_Remote__c';
+import IS_OPEN_TO_REMOTE_FIELD from '@salesforce/schema/Candidate__c.Is_Remote__c';
 
 const FIELDS = [
     FIRST_NAME_FIELD,

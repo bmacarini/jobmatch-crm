@@ -9,39 +9,39 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Administrator</fullName>
+                <fullName>Salesforce Architect</fullName>
                 <default>false</default>
-                <label>Administrator</label>
+                <label>Salesforce Architect</label>
             </value>
             <value>
-                <fullName>Architect</fullName>
+                <fullName>Salesforce Business Analyst</fullName>
                 <default>false</default>
-                <label>Architect</label>
+                <label>Salesforce Business Analyst</label>
             </value>
             <value>
-                <fullName>Business Analyst</fullName>
+                <fullName>Salesforce Consultant</fullName>
                 <default>false</default>
-                <label>Business Analyst</label>
+                <label>Salesforce Consultant</label>
             </value>
             <value>
-                <fullName>Consultant</fullName>
+                <fullName>Salesforce Cybersecurity Analyst</fullName>
                 <default>false</default>
-                <label>Consultant</label>
+                <label>Salesforce Cybersecurity Analyst</label>
             </value>
             <value>
-                <fullName>Cybersecurity Analyst</fullName>
+                <fullName>Salesforce Designer</fullName>
                 <default>false</default>
-                <label>Cybersecurity Analyst</label>
+                <label>Salesforce Designer</label>
             </value>
             <value>
-                <fullName>Designer</fullName>
+                <fullName>Salesforce Administrator</fullName>
                 <default>false</default>
-                <label>Designer</label>
+                <label>Salesforce Administrator</label>
             </value>
             <value>
-                <fullName>Developer</fullName>
+                <fullName>Salesforce Developer</fullName>
                 <default>false</default>
-                <label>Developer</label>
+                <label>Salesforce Developer</label>
             </value>
         </valueSetDefinition>
     </valueSet>
