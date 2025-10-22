@@ -31,6 +31,7 @@ jobs:
             --target-org ci_scratch \
             --code-coverage \
             --result-format json \
+            --output-dir .sf/test-results/apex \
             --wait 10 \
             --synchronous
 
