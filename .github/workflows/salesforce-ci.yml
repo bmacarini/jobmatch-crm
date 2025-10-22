@@ -1,0 +1,39 @@
+name: Salesforce CI/CD
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ develop ]
+
+jobs:
+  validate-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Authenticate DevHub
+        run: echo ${{ secrets.SFDX_AUTH_URL }} | sf org login sfdx-url --set-default --alias DevHub --sfdx-url-stdin
+
+      - name: Create Scratch Org
+        run: sf org create scratch --definition-file config/project-scratch-def.json --alias ci_scratch --duration-days 1 --set-default --target-dev-hub DevHub --wait 10
+
+      - name: Push Source to Scratch Org
+        run: sf project deploy start --target-org ci_scratch --ignore-conflicts
+
+      - name: Run Apex Tests
+        run: sf apex run test --target-org ci_scratch --code-coverage --result-format json --wait 10 --output-dir . --synchronous
+
+      - name: Verify Minimum Coverage
+        run: node scripts/check-coverage.js
+     
+      - name: Rename coverage file
+        run: mv test-result-*.json coverage.json
+
+      - name: Delete Scratch Org
+        if: always()
+        run: sf org delete scratch --target-org ci_scratch --no-prompt
