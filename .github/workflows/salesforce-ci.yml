@@ -35,11 +35,11 @@ jobs:
             --wait 10 \
             --synchronous
 
-      - name: Verify Minimum Coverage
-        run: node scripts/check-coverage.js
-     
       - name: Rename coverage file
         run: mv test-result-*.json coverage.json
+
+      - name: Verify Minimum Coverage
+        run: node scripts/check-coverage.js
 
       - name: Delete Scratch Org
         if: always()
