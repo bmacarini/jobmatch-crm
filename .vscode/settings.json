@@ -11,5 +11,6 @@
     "html": true
   },
   "salesforce.einsteinForDevelopers.enable": true,
-  "salesforce.einsteinForDevelopers.enableAutocompletions": true
+  "salesforce.einsteinForDevelopers.enableAutocompletions": true,
+  "xml.preferences.showSchemaDocumentationType": "none"
 }

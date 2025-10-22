@@ -35,66 +35,12 @@
                 </div>
             </div>
             <div class="slds-card slds-m-around_medium">
-                <div class="slds-card__header slds-grid">
-                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                        <div class="slds-media__body">
-                            <h2 class="slds-card__header-title">
-                                <span class="slds-text-heading_small">{positionAndExperienceLevel}</span>
-                            </h2>
-                        </div>
-                    </header>
-                </div>
-                <div class="slds-grid slds-wrap slds-m-top_medium slds-p-around_medium">
-                    <!-- Localização -->
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
-                        <p class="slds-text-title_caps">Location</p>
-                        <p>{job.Location__c}</p>
-                    </div>
-
-                    <!-- Salário -->
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
-                        <p class="slds-text-title_caps">Salary</p>
-                        <p>{job.Offered_Salary__c}</p>
-                    </div>
-
-                    <!-- Tipo de contratação -->
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
-                        <p class="slds-text-title_caps">Employment type</p>
-                        <p>{job.Employment_Type__c}</p>
-                    </div>
-
-                    <!-- Indústria -->
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
-                        <p class="slds-text-title_caps">Industry</p>
-                        <p>{job.Industry__c}</p>
-                    </div>
-
-                    <!-- Remoto -->
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
-                        <p class="slds-text-title_caps">Remote?</p>
-                        <p>{job.Is_Remote__c}</p>
-                    </div>
+                <div class="slds-card slds-p-around_small">
+                    <lightning-record-form record-id={job.Id} object-api-name="Job__c" fields={fields}
+                        columns="2" mode="view" onsuccess={handleSuccess}>
+                    </lightning-record-form>
                 </div>
             </div>
-
-            <!-- Skills -->
-            <div class="slds-card slds-m-around_medium">
-                <div class="slds-card__header slds-grid">
-                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                        <div class="slds-media__body">
-                            <h2 class="slds-card__header-title">
-                                <span class="slds-text-heading_small">Skills</span>
-                            </h2>
-                        </div>
-                    </header>
-                </div>
-                <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_medium">
-                    <template for:each={skillList} for:item="skill">
-                        <span key={skill} class="slds-badge slds-m-right_x-small">{skill}</span>
-                    </template>
-                </div>
-            </div>
-
             <!-- Candidatos compatíveis -->
             <div class="slds-card slds-m-around_medium">
                 <div class="slds-card__header slds-grid">
@@ -109,7 +55,8 @@
                 <div class="slds-card__body slds-card__body_inner slds-m-top_medium slds-p-around_small">
                     <template lwc:if={hasMatches}>
                         <template for:each={matches} for:item="match">
-                            <c-candidate-list key={match.Id} match={match} oncandidateselected={handleCandidateSelected}></c-candidate-list>
+                            <c-candidate-list key={match.Id} match={match}
+                                oncandidateselected={handleCandidateSelected}></c-candidate-list>
                         </template>
                     </template>
                     <template lwc:else>
