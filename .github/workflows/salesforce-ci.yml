@@ -17,10 +17,10 @@ jobs:
         run: npm install --global @salesforce/cli
 
       - name: Authenticate DevHub
-        run: echo ${{ secrets.SFDX_AUTH_URL }} | sf org login sfdx-url --set-default --alias DevHub --sfdx-url-stdin
+        run: echo ${{ secrets.SFDX_AUTH_URL }} | sf org login sfdx-url --set-default --alias jobmatch-org --sfdx-url-stdin
 
       - name: Create Scratch Org
-        run: sf org create scratch --definition-file config/project-scratch-def.json --alias ci_scratch --duration-days 1 --set-default --target-dev-hub DevHub --wait 10
+        run: sf org create scratch --definition-file config/project-scratch-def.json --alias ci_scratch --duration-days 1 --set-default --target-dev-hub jobmatch-org --wait 10
 
       - name: Push Source to Scratch Org
         run: sf project deploy start --target-org ci_scratch --ignore-conflicts
