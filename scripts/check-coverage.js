@@ -2,20 +2,32 @@ const fs = require('fs');
 const path = require('path');
 
 try {
-  // Busca o arquivo de resultado de teste na pasta atual
-  const files = fs.readdirSync('.');
-  const coverageFile = files.find(f => f.startsWith('test-result-') && f.endsWith('.json'));
-
-  if (!coverageFile) {
-    console.error("No test-result JSON file found in the root directory.");
+  // Caminho padrão onde o Salesforce CLI salva os resultados
+  const resultsDir = path.join('.sf', 'test-results', 'apex');
+  if (!fs.existsSync(resultsDir)) {
+    console.error(`❌ Test results directory not found: ${resultsDir}`);
     process.exit(1);
   }
 
-  const data = fs.readFileSync(path.join('.', coverageFile), 'utf8');
+  // Encontra o arquivo de resultado mais recente
+  const files = fs.readdirSync(resultsDir)
+    .filter(f => f.startsWith('test-result-') && f.endsWith('.json'))
+    .map(f => ({ name: f, time: fs.statSync(path.join(resultsDir, f)).mtime }))
+    .sort((a, b) => b.time - a.time);
+
+  if (files.length === 0) {
+    console.error("❌ No test result JSON files found in the test results directory.");
+    process.exit(1);
+  }
+
+  const latestFile = path.join(resultsDir, files[0].name);
+  console.log(`🧾 Using test result file: ${latestFile}`);
+
+  const data = fs.readFileSync(latestFile, 'utf8');
   const json = JSON.parse(data);
 
-  if (!json.result || !json.result.coverage) {
-    console.error("Could not find coverage data in the test result file.");
+  if (!json.result || !json.result.coverage || !json.result.coverage.coverage) {
+    console.error("❌ Could not find coverage data in the test result file.");
     process.exit(1);
   }
 
@@ -29,14 +41,13 @@ try {
   });
 
   const percentage = ((totalCovered / totalLines) * 100).toFixed(2);
-
-  console.log(`Total coverage: ${percentage}%`);
+  console.log(`📊 Total coverage: ${percentage}%`);
 
   if (percentage < 75) {
-    console.error("Coverage below 75%. Pipeline failed.");
+    console.error("❌ Coverage below 75%. Pipeline failed.");
     process.exit(1);
   } else {
-    console.log("Minimum coverage requirement met.");
+    console.log("✅ Minimum coverage requirement met.");
   }
 
 } catch (err) {

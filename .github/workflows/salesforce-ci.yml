@@ -31,12 +31,8 @@ jobs:
             --target-org ci_scratch \
             --code-coverage \
             --result-format json \
-            --output-dir ./ \
             --wait 10 \
             --synchronous
-
-      - name: Rename coverage file
-        run: mv test-result-*.json coverage.json
 
       - name: Verify Minimum Coverage
         run: node scripts/check-coverage.js
