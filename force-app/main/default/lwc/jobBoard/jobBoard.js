@@ -1,5 +1,4 @@
-import { api, LightningElement } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import { LightningElement } from 'lwc';
 
 export default class JobBoard extends LightningElement {
     showDetail = false;

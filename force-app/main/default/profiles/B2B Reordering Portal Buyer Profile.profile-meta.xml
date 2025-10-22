@@ -23,10 +23,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Service_FetchExistingMatches</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Service_FetchJobs</apexClass>
         <enabled>false</enabled>
     </classAccesses>

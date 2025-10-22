@@ -1,6 +1,6 @@
 <template>
     <div class="slds-card slds-p-around_small">
-        <lightning-record-form object-api-name="Job__c" fields={fields} columns="2" mode="edit">
+        <lightning-record-form object-api-name="Job__c" fields={fields} columns="2" mode="edit" onsuccess={handleSuccess}>
         </lightning-record-form>
     </div>
 </template>

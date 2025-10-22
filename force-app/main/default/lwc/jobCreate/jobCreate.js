@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import POSITION_FIELD from '@salesforce/schema/Job__c.Position__c';
 import EXPERIENCE_LEVEL_FIELD from '@salesforce/schema/Job__c.Experience_Level__c';
@@ -22,4 +23,12 @@ export default class JobCreate extends LightningElement {
         IS_ACTIVE_FIELD,
         SKILLS_FIELD
     ];
+
+    handleSuccess() {
+        const evt = new ShowToastEvent({
+            title: 'Job created successfully.',
+            variant: 'success',
+        });
+        this.dispatchEvent(evt);
+    }
 }
