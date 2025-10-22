@@ -26,7 +26,14 @@ jobs:
         run: sf project deploy start --target-org ci_scratch --ignore-conflicts
 
       - name: Run Apex Tests
-        run: sf apex run test --target-org ci_scratch --code-coverage --result-format json --wait 10 --output-dir . --synchronous
+        run: |
+            sf apex run test \
+            --target-org ci_scratch \
+            --code-coverage \
+            --result-format json \
+            --output-dir ./ \
+            --wait 10 \
+            --synchronous
 
       - name: Verify Minimum Coverage
         run: node scripts/check-coverage.js
