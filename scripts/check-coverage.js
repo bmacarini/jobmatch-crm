@@ -2,36 +2,44 @@ const fs = require('fs');
 const path = require('path');
 
 try {
-  // Caminho padrão onde o Salesforce CLI salva os resultados
-  const resultsDir = path.join('.sf', 'test-results', 'apex');
+  const resultsDir = '.sf/test-results/apex';
   if (!fs.existsSync(resultsDir)) {
     console.error(`❌ Test results directory not found: ${resultsDir}`);
     process.exit(1);
   }
 
-  // Encontra o arquivo de resultado mais recente
-  const files = fs.readdirSync(resultsDir)
-    .filter(f => f.startsWith('test-result-') && f.endsWith('.json'))
-    .map(f => ({ name: f, time: fs.statSync(path.join(resultsDir, f)).mtime }))
-    .sort((a, b) => b.time - a.time);
-
+  const files = fs.readdirSync(resultsDir).filter(f => f.endsWith('.json'));
   if (files.length === 0) {
-    console.error("❌ No test result JSON files found in the test results directory.");
+    console.error(`❌ No JSON files found in ${resultsDir}`);
     process.exit(1);
   }
 
-  const latestFile = path.join(resultsDir, files[0].name);
-  console.log(`🧾 Using test result file: ${latestFile}`);
+  // Encontra o arquivo mais recente
+  const latestFile = files
+    .map(f => ({
+      name: f,
+      time: fs.statSync(path.join(resultsDir, f)).mtime.getTime(),
+    }))
+    .sort((a, b) => b.time - a.time)[0].name;
 
-  const data = fs.readFileSync(latestFile, 'utf8');
+  console.log(`🧾 Using test result file: ${path.join(resultsDir, latestFile)}`);
+
+  const data = fs.readFileSync(path.join(resultsDir, latestFile), 'utf8');
   const json = JSON.parse(data);
 
-  if (!json.result || !json.result.coverage || !json.result.coverage.coverage) {
-    console.error("❌ Could not find coverage data in the test result file.");
+  // Tenta achar dados de cobertura em diferentes estruturas possíveis
+  const coverages =
+    json.coverage?.coverage ||
+    json.result?.coverage?.coverage ||
+    json.tests?.flatMap(t => t.coverage?.coverage || []) ||
+    [];
+
+  if (!coverages.length) {
+    console.error('❌ Could not find coverage data in the test result file.');
+    console.log('🔍 JSON keys available:', Object.keys(json));
     process.exit(1);
   }
 
-  const coverages = json.result.coverage.coverage;
   let totalCovered = 0;
   let totalLines = 0;
 
@@ -44,13 +52,12 @@ try {
   console.log(`📊 Total coverage: ${percentage}%`);
 
   if (percentage < 75) {
-    console.error("❌ Coverage below 75%. Pipeline failed.");
+    console.error('🚨 Coverage below 75%. Pipeline failed.');
     process.exit(1);
   } else {
-    console.log("✅ Minimum coverage requirement met.");
+    console.log('✅ Minimum coverage requirement met.');
   }
-
 } catch (err) {
-  console.error("❌ Error checking coverage:", err);
+  console.error('❌ Error checking coverage:', err);
   process.exit(1);
 }
