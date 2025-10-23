@@ -33,6 +33,7 @@ try {
   let coverages = [];
 
   possibleEntries.forEach(entry => {
+    // existing expected shapes
     if (entry.coverage?.coverage) {
       coverages.push(...entry.coverage.coverage);
     } else if (entry.result?.coverage?.coverage) {
@@ -43,12 +44,23 @@ try {
           coverages.push(...t.coverage.coverage);
         }
       });
+    } else if (entry.totalLines && entry.lines) {
+      // New: handle per-class coverage objects like your sample
+      const linesMap = entry.lines || {};
+      // Count covered lines: values > 0
+      const coveredCount = Object.values(linesMap).filter(v => Number(v) > 0).length;
+      const numLocations = Number(entry.totalLines) || Object.keys(linesMap).length;
+      const numLocationsNotCovered = Math.max(0, numLocations - coveredCount);
+      coverages.push({
+        numLocations: numLocations,
+        numLocationsNotCovered: numLocationsNotCovered,
+      });
     }
   });
 
   if (!coverages.length) {
     console.error('❌ Could not find coverage data in the test result file.');
-    console.log('🧩 First JSON entry sample:', JSON.stringify(possibleEntries[0], null, 2).substring(0, 400));
+    console.log('🧩 First JSON entry sample:', JSON.stringify(possibleEntries[0], null, 2).substring(0, 800));
     process.exit(1);
   }
 
@@ -56,12 +68,21 @@ try {
   let totalLines = 0;
 
   coverages.forEach(c => {
-    totalCovered += c.numLocations - c.numLocationsNotCovered;
-    totalLines += c.numLocations;
+    // defensive coercion
+    const numLocations = Number(c.numLocations) || 0;
+    const numNotCovered = Number(c.numLocationsNotCovered) || 0;
+    totalCovered += Math.max(0, numLocations - numNotCovered);
+    totalLines += numLocations;
   });
 
-  const percentage = ((totalCovered / totalLines) * 100).toFixed(2);
-  console.log(`📊 Total coverage: ${percentage}%`);
+  if (totalLines === 0) {
+    console.error('❌ No measurable lines found in coverage data.');
+    process.exit(1);
+  }
+
+  const percentage = ((totalCovered / totalLines) * 100);
+  const percentageStr = percentage.toFixed(2);
+  console.log(`📊 Total coverage: ${percentageStr}%`);
 
   if (percentage < 75) {
     console.error('🚨 Coverage below 75%. Pipeline failed.');
