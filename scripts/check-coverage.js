@@ -27,16 +27,28 @@ try {
   const data = fs.readFileSync(path.join(resultsDir, latestFile), 'utf8');
   const json = JSON.parse(data);
 
-  // Tenta achar dados de cobertura em diferentes estruturas possíveis
-  const coverages =
-    json.coverage?.coverage ||
-    json.result?.coverage?.coverage ||
-    json.tests?.flatMap(t => t.coverage?.coverage || []) ||
-    [];
+  // Se o JSON for um array, tenta encontrar os objetos com cobertura
+  const possibleEntries = Array.isArray(json) ? json : [json];
+
+  let coverages = [];
+
+  possibleEntries.forEach(entry => {
+    if (entry.coverage?.coverage) {
+      coverages.push(...entry.coverage.coverage);
+    } else if (entry.result?.coverage?.coverage) {
+      coverages.push(...entry.result.coverage.coverage);
+    } else if (entry.tests) {
+      entry.tests.forEach(t => {
+        if (t.coverage?.coverage) {
+          coverages.push(...t.coverage.coverage);
+        }
+      });
+    }
+  });
 
   if (!coverages.length) {
     console.error('❌ Could not find coverage data in the test result file.');
-    console.log('🔍 JSON keys available:', Object.keys(json));
+    console.log('🧩 First JSON entry sample:', JSON.stringify(possibleEntries[0], null, 2).substring(0, 400));
     process.exit(1);
   }
 
